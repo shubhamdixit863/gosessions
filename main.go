@@ -1,11 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"os"
-
-	"gosession/controllers"
-)
+import "gosession/controllers"
 
 // Two keywords ,const ,var
 // var
@@ -116,31 +111,37 @@ func main() {
 
 	//foo()
 	// you can pass n number of arguments
-	controllers.Foo(2, 3, 4, 5, 6, 6, 7, 8, 9, 10)
-
+	//controllers.Foo(2, 3, 4, 5, 6, 6, 7, 8, 9, 10)
+	//controllers.GenerateNum()
+	//controllers.GenerateNumWhile()
+	//controllers.GenerateNumWhileInfinite()
+	//fmt.Println(controllers.SwitchCase("banana"))
+	//fmt.Printf("For banana the colors is %s \n", controllers.SwitchCase("banana"))
+	//controllers.GenerateNumWhileInfiniteTwo()
+	controllers.Array()
 }
 
-func infinite() {
-	go func() {
-		for {
-
-		}
-	}()
-
-}
-
-func foo() {
-	open, err := os.Open("go.mod")
-	if err != nil {
-		return
-	}
-	defer open.Close()
-
-	defer fmt.Println("1")
-
-	defer fmt.Println("3")
-
-	fmt.Println("hi there")
-	fmt.Println("hey people")
-
-}
+//func infinite() {
+//	go func() {
+//		for {
+//
+//		}
+//	}()
+//
+//}
+//
+//func foo() {
+//	open, err := os.Open("go.mod")
+//	if err != nil {
+//		return
+//	}
+//	defer open.Close()
+//
+//	defer fmt.Println("1")
+//
+//	defer fmt.Println("3")
+//
+//	fmt.Println("hi there")
+//	fmt.Println("hey people")
+//
+//}
