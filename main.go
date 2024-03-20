@@ -1,6 +1,10 @@
 package main
 
-import "gosession/controllers"
+import (
+	"fmt"
+
+	"gosession/controllers"
+)
 
 // Two keywords ,const ,var
 // var
@@ -118,7 +122,25 @@ func main() {
 	//fmt.Println(controllers.SwitchCase("banana"))
 	//fmt.Printf("For banana the colors is %s \n", controllers.SwitchCase("banana"))
 	//controllers.GenerateNumWhileInfiniteTwo()
-	controllers.Array()
+	//controllers.Array()
+	//slc := make([]int, 1)
+	//slc[0] = 23
+	//fmt.Println("Before", slc)
+	//controllers.SliceReference(slc)
+	//fmt.Println("After", slc)
+	//
+	//arr := [1]int{1}
+	//
+	//fmt.Println("Before Array", arr)
+	//controllers.ArrayReference(arr)
+	//fmt.Println("After Array", arr)
+
+	//controllers.Maps()
+	mp := make(map[string]string)
+	mp["name"] = "john"
+	fmt.Println(mp)
+	controllers.MapModify(mp)
+	fmt.Println(mp)
 }
 
 //func infinite() {
