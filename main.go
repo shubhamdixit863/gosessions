@@ -136,11 +136,42 @@ func main() {
 	//fmt.Println("After Array", arr)
 
 	//controllers.Maps()
-	mp := make(map[string]string)
-	mp["name"] = "john"
-	fmt.Println(mp)
-	controllers.MapModify(mp)
-	fmt.Println(mp)
+	//mp := make(map[string]string)
+	//mp["name"] = "john"
+	//fmt.Println(mp)
+	//controllers.MapModify(mp)
+	//fmt.Println(mp)
+
+	//controllers.Pointers()
+	//
+	//d := 9
+	//pointerVar := &d
+	//controllers.PointerArgs(pointerVar)
+
+	//controllers.StructFun()
+
+	john := controllers.Human{
+		Name: "John",
+		Age:  20,
+	}
+
+	john.Walk()
+
+	fmt.Println(john)
+	//john.Sing()
+
+	// pointer value of object
+
+	john2 := &controllers.Human{
+		Name: "John2",
+		Age:  22,
+	}
+
+	//john2.Walk()
+
+	john2.Sing()
+	fmt.Println(john2)
+
 }
 
 //func infinite() {
