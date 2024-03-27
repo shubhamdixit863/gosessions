@@ -185,17 +185,23 @@ func main() {
 	//OnlyForHumans(shubham)
 	//OnlyForHumans(bird)
 
-	lfu := &controllers.Lfu{}
-	cache := controllers.InitCache(lfu)
-	cache.Add("a", "1")
-	cache.Add("b", "7")
-	cache.Add("c", "9")
+	//lfu := &controllers.Lfu{}
+	//cache := controllers.InitCache(lfu)
+	//cache.Add("a", "1")
+	//cache.Add("b", "7")
+	//cache.Add("c", "9")
+	//
+	//cache.SetEvictionAlgo(&controllers.Lru{})
+	//
+	//cache.Add("a", "1")
+	//cache.Add("b", "7")
+	//cache.Add("c", "9")
 
-	cache.SetEvictionAlgo(&controllers.Lru{})
-
-	cache.Add("a", "1")
-	cache.Add("b", "7")
-	cache.Add("c", "9")
+	controllers.AnyKind(89)
+	controllers.AnyKind("shello")
+	controllers.AnyKind(true)
+	//controllers.AnyKind(89.9)
+	//controllers.AnyKind(controllers.Lfu{})
 
 }
 
