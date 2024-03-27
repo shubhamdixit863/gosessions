@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
 	"gosession/controllers"
 )
@@ -150,28 +150,57 @@ func main() {
 
 	//controllers.StructFun()
 
-	john := controllers.Human{
-		Name: "John",
-		Age:  20,
-	}
-
-	john.Walk()
-
-	fmt.Println(john)
+	//john := controllers.Human{
+	//	Name: "John",
+	//	Age:  20,
+	//}
+	//
+	//john.Walk()
+	//
+	//fmt.Println(john)
 	//john.Sing()
 
 	// pointer value of object
 
-	john2 := &controllers.Human{
-		Name: "John2",
-		Age:  22,
-	}
+	//john2 := &controllers.Human{
+	//	Name: "John2",
+	//	Age:  22,
+	//}
+	//
+	////john2.Walk()
+	//
+	//john2.Sing()
+	//fmt.Println(john2)
 
-	//john2.Walk()
+	//shubham := controllers.Animal{
+	//	Legs:  2,
+	//	Tail:  0,
+	//	Hands: 2,
+	//}
+	//// Is shubham a human ?
+	//shubham.Friendship()
+	//
+	//bird := controllers.Bird{Feathers: one}
+	//
+	//OnlyForHumans(shubham)
+	//OnlyForHumans(bird)
 
-	john2.Sing()
-	fmt.Println(john2)
+	lfu := &controllers.Lfu{}
+	cache := controllers.InitCache(lfu)
+	cache.Add("a", "1")
+	cache.Add("b", "7")
+	cache.Add("c", "9")
 
+	cache.SetEvictionAlgo(&controllers.Lru{})
+
+	cache.Add("a", "1")
+	cache.Add("b", "7")
+	cache.Add("c", "9")
+
+}
+
+func OnlyForHumans(human controllers.Human) {
+	log.Println("congratulations you are human", human)
 }
 
 //func infinite() {
