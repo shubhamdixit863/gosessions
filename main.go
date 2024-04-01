@@ -2,7 +2,9 @@ package main
 
 import (
 	"log"
+	"time"
 
+	"gosession/concurrency"
 	"gosession/controllers"
 )
 
@@ -197,17 +199,31 @@ func main() {
 	//cache.Add("b", "7")
 	//cache.Add("c", "9")
 
-	controllers.AnyKind(89)
-	controllers.AnyKind("shello")
-	controllers.AnyKind(true)
-	//controllers.AnyKind(89.9)
-	//controllers.AnyKind(controllers.Lfu{})
+	//controllers.AnyKind2(89)
+	//controllers.AnyKind2("shello")
+	//controllers.AnyKind2(true)
+	//controllers.AnyKind2(89.9)
+	//controllers.AnyKind2(controllers.Lfu{})
+
+	//controllers.TypeConversion()
+	//fmt.Println(controllers.Add3(8, 9))
+	//fmt.Println(controllers.Add3(8.9, 9.7))
+	//fmt.Println(controllers.Add3("hello", "world"))
+
+	// Concurrency
+
+	go concurrency.Foo()
+
+	// you have to stop the main routine from exiting
+	time.Sleep(50 * time.Microsecond) // its a very bad idea  , wait groups
 
 }
 
 func OnlyForHumans(human controllers.Human) {
 	log.Println("congratulations you are human", human)
 }
+
+// mutexes
 
 //func infinite() {
 //	go func() {
