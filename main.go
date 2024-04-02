@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	"time"
+	"sync"
 
 	"gosession/concurrency"
 	"gosession/controllers"
@@ -211,11 +211,30 @@ func main() {
 	//fmt.Println(controllers.Add3("hello", "world"))
 
 	// Concurrency
+	var wg sync.WaitGroup
 
-	go concurrency.Foo()
+	// this will make sure that our main routine waits for atleast 1 go routine
+	wg.Add(2)
+
+	// you use make keyword to create a channel
+	ch := make(chan int)
+
+	go concurrency.Sender(ch, &wg)
+	go concurrency.Receiver(ch, &wg)
+	//
+	//go func() {
+	//	time.Sleep(10 * time.Second)
+	//	log.Println("I am an anonymous function")
+	//	wg.Done()
+	//}()
+	//slc := []int{8, 9, 7, 70, 6, 45}
+	//concurrency.SlicePrint(slc, &wg)
 
 	// you have to stop the main routine from exiting
-	time.Sleep(50 * time.Microsecond) // its a very bad idea  , wait groups
+	// wait groups
+
+	wg.Wait() // it will block the main routine until the counter is 0
+	close(ch)
 
 }
 
