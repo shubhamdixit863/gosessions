@@ -211,16 +211,17 @@ func main() {
 	//fmt.Println(controllers.Add3("hello", "world"))
 
 	// Concurrency
-	var wg sync.WaitGroup
+	//var wg sync.WaitGroup
 
 	// this will make sure that our main routine waits for atleast 1 go routine
-	wg.Add(2)
+	//wg.Add(2)
 
-	// you use make keyword to create a channel
-	ch := make(chan int)
-
-	go concurrency.Sender(ch, &wg)
-	go concurrency.Receiver(ch, &wg)
+	//// you use make keyword to create a channel
+	//ch := make(chan int) // unbuffered channel
+	//blockMainRoutineChannel := make(chan struct{})
+	//
+	//go concurrency.SendTheData(ch)
+	//go concurrency.Receicvethedata(ch, blockMainRoutineChannel)
 	//
 	//go func() {
 	//	time.Sleep(10 * time.Second)
@@ -229,13 +230,48 @@ func main() {
 	//}()
 	//slc := []int{8, 9, 7, 70, 6, 45}
 	//concurrency.SlicePrint(slc, &wg)
-
+	//<-blockMainRoutineChannel
+	//log.Println("Data received in main routine", <-ch)
 	// you have to stop the main routine from exiting
 	// wait groups
 
-	wg.Wait() // it will block the main routine until the counter is 0
-	close(ch)
+	//wg.Wait() // it will block the main routine until the counter is 0
 
+	// here we will create job channel and result channels
+	var wg sync.WaitGroup
+	jobChannel := make(chan concurrency.Job, 5) // if you create a buffered channel
+	resultChannel := make(chan concurrency.Result)
+
+	// I want to spawn three workers
+
+	for i := 0; i < 5; i++ {
+		wg.Add(1)
+		go concurrency.Worker(jobChannel, resultChannel, &wg)
+	}
+
+	// We will send the job through jobChannel
+	slc := []concurrency.Job{
+		{Number: 78},
+		{Number: 34},
+		{Number: 340},
+		{Number: 349},
+		{Number: 56},
+	}
+
+	for i := 0; i < len(slc); i++ {
+		jobChannel <- slc[i] // passing job to the job channel  // this would be the blocking operation in case of unbuffered
+		// but its a buffered channel
+	}
+
+	//
+	// Result channel
+
+	// somehow we should close the result Channel as well such that we dnt receive the deadlock
+	for v := range resultChannel {
+		log.Println("Data received", v)
+	}
+
+	wg.Wait()
 }
 
 func OnlyForHumans(human controllers.Human) {
