@@ -1,8 +1,8 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"sync"
 
 	"gosession/concurrency"
 	"gosession/controllers"
@@ -238,45 +238,77 @@ func main() {
 	//wg.Wait() // it will block the main routine until the counter is 0
 
 	// here we will create job channel and result channels
-	var wg sync.WaitGroup
-	jobChannel := make(chan concurrency.Job, 5) // if you create a buffered channel
-	resultChannel := make(chan concurrency.Result)
 
-	// I want to spawn three workers
-
-	for i := 0; i < 5; i++ {
-		wg.Add(1)
-		go concurrency.Worker(jobChannel, resultChannel, &wg)
-	}
-
-	// We will send the job through jobChannel
-	slc := []concurrency.Job{
-		{Number: 78},
-		{Number: 34},
-		{Number: 340},
-		{Number: 349},
-		{Number: 56},
-	}
-
-	for i := 0; i < len(slc); i++ {
-		jobChannel <- slc[i] // passing job to the job channel  // this would be the blocking operation in case of unbuffered
-		// but its a buffered channel
-	}
-
+	// create a job channel
+	//jobC := make(chan concurrency.Job, 5) // it as a  buffered channel because we dnt want to block it
 	//
-	// Result channel
+	//resultChannel := make(chan concurrency.Result)
+	//
+	//jobs := []concurrency.Job{
+	//	{Number: 1},
+	//	{Number: 10},
+	//	{Number: 20},
+	//	{Number: 11},
+	//	{Number: 34},
+	//}
+	//
+	//// we will spawn our workers
+	//var wg sync.WaitGroup
+	//
+	//for i := 0; i < 5; i++ {
+	//	go concurrency.Worker(jobC, resultChannel, i, &wg)
+	//}
+	//
+	//// we have to send jobs to channel
+	//
+	//for i := 0; i < len(jobs); i++ {
+	//	wg.Add(1)
+	//	jobC <- jobs[i] // it wont be a blocking operation as it is the buffered channel
+	//}
+	//close(jobC)
+	//
+	//// its a blocking operation for main go routine
+	//
+	//go func() {
+	//	wg.Wait()
+	//	close(resultChannel)
+	//}()
+	//
+	//for res := range resultChannel {
+	//	log.Println(res)
+	//}
+	//slc := []int{8, 2, 11, 5, 3, 20, 1}
+	//ch := make(chan int)
+	//fmt.Println(concurrency.BubbleSortConcurrent(slc, ch))
 
-	// somehow we should close the result Channel as well such that we dnt receive the deadlock
-	for v := range resultChannel {
-		log.Println("Data received", v)
+	innerCh := make(chan int) // we will be passing this to the outerLoop
+	exitch := make(chan struct{})
+	slc := []int{8, 2, 11, 5, 3, 20, 1}
+	go concurrency.OuterLoop(slc, innerCh, exitch)
+
+	// next thing is we will listen to the  channels or wait for the data to come to channels
+loop:
+	for {
+
+		select {
+		case i := <-innerCh:
+			concurrency.InnerLoop(i, slc)
+		case <-exitch:
+			break loop
+
+		}
+
 	}
-
-	wg.Wait()
+	fmt.Println("sorted slice", slc)
 }
 
 func OnlyForHumans(human controllers.Human) {
 	log.Println("congratulations you are human", human)
 }
+
+// selection sort with same technique --------
+
+// we will create a tcp socket server   // net package
 
 // mutexes
 
@@ -304,3 +336,5 @@ func OnlyForHumans(human controllers.Human) {
 //	fmt.Println("hey people")
 //
 //}
+
+// try to do bubble sort with go routines
