@@ -354,7 +354,7 @@ import (
 
 func main() {
 
-	fileoperations.ReadLargeFile("largefile.txt")
+	fileoperations.WriteToLArgeFile("data.txt", "appended data ---------")
 	//data := fileoperations.ReadFile("largefile.txt")
 	//log.Println(string(data))
 	//

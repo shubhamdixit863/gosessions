@@ -66,12 +66,39 @@ func ReadLargeFile(filePath string) {
 		chunk := make([]byte, 1024)
 		read, err := reader.Read(chunk)
 		if err != nil {
+			if err.Error() == "EOF" {
+				log.Println("file reading finished ")
+
+			}
+
 			return
 		}
 
 		log.Println("number of bytes read", read)
 
 		log.Println(string(chunk))
+	}
+
+}
+
+func WriteToLArgeFile(filePath string, data string) {
+	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	defer file.Close()
+	writer := bufio.NewWriter(file)
+	_, err = writer.WriteString(data)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	err = writer.Flush()
+	if err != nil {
+		return
 	}
 
 }

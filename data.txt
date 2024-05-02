@@ -17,4 +17,4 @@ For embedded systems, system calls typically do not change the privilege mode of
 
 In most systems, system calls can only be made from userspace processes, while in some systems, OS/360 and successors for example, privileged system code also issues system calls.[1]
 
-For embedded systems, system calls typically do not change the privilege mode of the CPU.
+For embedded systems, system calls typically do not change the privilege mode of the CPU.appended data ---------
